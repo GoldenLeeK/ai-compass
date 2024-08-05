@@ -36,10 +36,6 @@ export default function Footer() {
       title: t('tap4'),
       href: 'https://www.tap4.ai',
     },
-    {
-      title: t('tattoo'),
-      href: 'https://tattooai.design',
-    },
   ];
 
   const INFO_LIST = [
