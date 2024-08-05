@@ -3,6 +3,11 @@ import { getRequestConfig } from 'next-intl/server';
 
 export const languages = [
   {
+    code: 'zh-CN',
+    lang: 'cn',
+    label: '简体中文',
+  },
+  {
     code: 'en-US',
     lang: 'en',
     label: 'English',
@@ -37,11 +42,7 @@ export const languages = [
   //   lang: 'ru',
   //   label: 'Русский',
   // },
-  {
-    code: 'zh-CN',
-    lang: 'cn',
-    label: '简体中文',
-  },
+
   // {
   //   code: 'zh-TW',
   //   lang: 'tw',
