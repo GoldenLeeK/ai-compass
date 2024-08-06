@@ -26,7 +26,7 @@ export default function Navigation() {
 
   return (
     <>
-      <header className='bg-frosted-glass sticky left-0 top-0 z-50 flex h-[64px] bg-[#252A464A] px-5 blur-[60%] filter lg:px-0'>
+      <header className='bg-frosted-glass sticky left-0 top-0 z-50 flex h-[64px]  bg-[#15141A] px-5 blur-[60%] filter lg:px-0'>
         <nav className='mx-auto flex max-w-pc flex-1 items-center'>
           <div className='flex items-center'>
             <Link className='hover:opacity-80' href='/' title={t('title')}>
