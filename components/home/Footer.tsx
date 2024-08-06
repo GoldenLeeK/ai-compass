@@ -36,6 +36,10 @@ export default function Footer() {
       title: t('tap4'),
       href: 'https://www.tap4.ai',
     },
+    {
+      title: t('chatgpt'),
+      href: 'https://chatgpt.com/',
+    },
   ];
 
   const INFO_LIST = [
