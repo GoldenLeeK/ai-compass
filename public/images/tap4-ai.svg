@@ -1,26 +1,25 @@
-<svg width="100" height="64" viewBox="0 0 100 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="64" height="64" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="paint0_linear" x1="50" y1="0" x2="50" y2="64" gradientUnits="userSpaceOnUse">
-      <stop stop-color="white" />
-      <stop offset="1" stop-color="#FFEA9F" />
+    <linearGradient id="gradient1" x1="0" y1="0" x2="1" y2="1" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#00BFFF" />
+      <stop offset="100%" stop-color="#1E90FF" />
     </linearGradient>
   </defs>
-  <!-- Letter A -->
-  <path id="letterA" d="M20 56 L30 8 L40 56 Z M25 35 H35" 
-        stroke="url(#paint0_linear)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  <!-- Letter C -->
-  <path id="letterC" d="M80,8 C66.9543,8 56,18.9543 56,32 C56,45.0457 66.9543,56 80,56" 
-        stroke="url(#paint0_linear)" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  <!-- Animation for A -->
-  <path id="letterA_anim" d="M20 56 L30 8 L40 56 Z M25 35 H35" 
-        stroke="url(#paint0_linear)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <animate attributeName="stroke-dasharray" from="0,100" to="100,0" dur="2s" fill="freeze" />
-    <animate attributeName="opacity" from="0" to="1" dur="2s" fill="freeze" />
-  </path>
-  <!-- Animation for C -->
-  <path id="letterC_anim" d="M80,8 C66.9543,8 56,18.9543 56,32 C56,45.0457 66.9543,56 80,56" 
-        stroke="url(#paint0_linear)" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <animate attributeName="stroke-dasharray" from="0,100" to="100,0" dur="2s" fill="freeze" />
-    <animate attributeName="opacity" from="0" to="1" dur="2s" fill="freeze" />
-  </path>
+
+  <!-- Compass Circle -->
+  <circle cx="100" cy="100" r="80" stroke="url(#gradient1)" stroke-width="8" fill="none"/>
+  
+  <!-- Compass Needle -->
+  <path d="M100 40 L120 100 L100 90 L80 100 Z" fill="white" stroke="black" stroke-width="2"/>
+  <path d="M100 160 L80 100 L100 110 L120 100 Z" fill="white" stroke="black" stroke-width="2"/>
+
+  <!-- AI Icon -->
+  <g fill="white">
+    <circle cx="100" cy="100" r="10" />
+    <circle cx="95" cy="95" r="4" />
+    <circle cx="105" cy="95" r="4" />
+    <circle cx="95" cy="105" r="4" />
+    <circle cx="105" cy="105" r="4" />
+  </g>
+
 </svg>

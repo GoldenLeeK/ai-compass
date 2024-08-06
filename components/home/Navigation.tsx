@@ -28,7 +28,7 @@ export default function Navigation() {
     <>
       <header className='bg-frosted-glass sticky left-0 top-0 z-50 flex h-[64px] bg-[#252A464A] px-5 blur-[60%] filter lg:px-0'>
         <nav className='mx-auto flex max-w-pc flex-1 items-center'>
-          <div>
+          <div className='flex items-center'>
             <Link className='hover:opacity-80' href='/' title={t('title')}>
               <BaseImage
                 src='/images/tap4-ai.svg'
@@ -39,6 +39,7 @@ export default function Navigation() {
                 className='size-[58px] lg:size-16'
               />
             </Link>
+            <span className='ml-4 text-xl font-semibold text-white lg:text-2xl'>AI Compass</span>
           </div>
           {/* pc */}
           <div className='ml-auto flex h-full items-center gap-x-[46px]'>
