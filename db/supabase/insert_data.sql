@@ -109,7 +109,7 @@ INSERT INTO public.web_navigation (
     'AI, Design, Content Creation',
     NULL,
     0,
-    'Design&Art'
+    'Design-Art'
 );
 
 
@@ -138,7 +138,7 @@ INSERT INTO public.web_navigation (
     'AI, Writing, Formatting',
     NULL,
     0,
-    'Text&Writing'
+    'Text-Writing'
 );
 
 
@@ -167,7 +167,7 @@ INSERT INTO public.web_navigation (
     'Mapping, Visualization, Data',
     NULL,
     0,
-    'Design&Art'
+    'Design-Art'
 );
 
 
@@ -226,9 +226,38 @@ INSERT INTO public.web_navigation (
     'AI, Art, Models',
     NULL,
     0,
-    'Design&Art'
+    'Design-Art'
 );
 
+
+
+INSERT INTO public.web_navigation (
+    name, 
+    title, 
+    content, 
+    detail, 
+    url, 
+    image_url, 
+    thumbnail_url, 
+    collection_time, 
+    tag_name, 
+    website_data, 
+    star_rating, 
+    category_name
+) VALUES (
+    'Replit AI',
+    'Replit AI: Interactive Development Environment with AI Integration',
+    'Explore AI-driven coding with Replit’s interactive development environment.',
+    'Replit AI offers a powerful platform for interactive development, integrating AI to assist with coding, debugging, and learning. It provides a collaborative environment where users can experiment with AI in real-time, enhancing their coding skills and productivity. Ideal for developers, educators, and learners seeking to leverage AI in their projects.',
+    'https://replit.com/ai',
+    'https://s2.loli.net/2024/08/07/ywAS18eEudn9BoO.webp',  -- Replace with the actual image URL
+    'https://s2.loli.net/2024/08/07/ywAS18eEudn9BoO.webp',  -- Replace with the actual thumbnail URL
+    '2024-08-07 10:00:00',
+    'AI, Development, Coding',
+    NULL,
+    0,
+    'Code-IT'
+);
 
 
 
