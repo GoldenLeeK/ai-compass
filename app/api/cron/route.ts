@@ -1,8 +1,11 @@
 /* eslint-disable import/prefer-default-export */
 import { NextRequest, NextResponse } from 'next/server';
+import { url } from 'inspector';
 import { createClient } from '@/db/supabase/client';
 
+import chatgpt from './chatgpt';
 import crawler from './crawler';
+import smms from './smms';
 
 // submit table empty -> stop
 
