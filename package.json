@@ -32,6 +32,7 @@
     "@supabase/ssr": "0.3.0",
     "@supabase/supabase-js": "2.43.2",
     "axios": "1.7.3",
+    "cheerio": "1.0.0-rc.12",
     "class-variance-authority": "0.7.0",
     "clsx": "2.1.0",
     "dayjs": "1.11.10",
@@ -55,6 +56,7 @@
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "4.2.1",
     "@tailwindcss/typography": "0.5.12",
+    "@types/cheerio": "0.22.35",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
