@@ -1,3 +1,5 @@
+import { error } from 'console';
+import { json } from 'stream/consumers';
 import axios from 'axios';
 import cheerio from 'cheerio';
 
@@ -18,6 +20,7 @@ type CrawlerResponse = {
 type CrawlerData = {
   description: string;
   detail: string;
+  content: string;
   category_name: string;
   name: string;
   screenshot_data: string;
@@ -56,6 +59,7 @@ export default async function crawler({ url, categoryList }: CrawlerRequest): Pr
 
 - "description": A concise description of the website.
 - "detail": A detailed and expansive description or content of the website, inferred from the title and description. Be creative and elaborate on what the website offers.
+- "content": A detailed and comprehensive description of the features, offerings, and functionalities of the website, based on the title and description provided. This field should provide an in-depth look at what users can expect from the website.
 - "category_name": Automatically select the most appropriate category name from the provided category list, based on the content of the website. This field must not be left empty.
 - "name": The name of the website, inferred from the title.
 - "tags": Automatically generate relevant tags related to the content of the website, formatted as an array of strings. Do not leave this field empty.
@@ -77,7 +81,7 @@ Please provide only the JSON string in your response, strictly in English, witho
     if (chatGPTResponse.error || !chatGPTResponse.result) {
       return {
         code: 500,
-        msg: 'chatgpt error',
+        msg: JSON.stringify(error),
         data: null,
       };
     }
@@ -93,6 +97,7 @@ Please provide only the JSON string in your response, strictly in English, witho
     const crawlerData: CrawlerData = {
       description: chatGPTResponse.result.description,
       detail: chatGPTResponse.result.detail,
+      content: chatGPTResponse.result.content,
       category_name: chatGPTResponse.result.category_name,
       name: chatGPTResponse.result.name,
       screenshot_data: screenshot_data, // 这里需要你自己处理截图的部分
@@ -111,7 +116,7 @@ Please provide only the JSON string in your response, strictly in English, witho
     console.error('Error occurred during crawling:', error);
     return {
       code: 500,
-      msg: 'Internal Server Error',
+      msg: JSON.stringify(error),
       data: null,
     };
   }

@@ -8,6 +8,7 @@ type Data = {
 type CrawlerData = {
   description: string;
   detail: string;
+  content: string;
   category_name: string;
   name: string;
   screenshot_data: string;
@@ -46,6 +47,7 @@ export default async function chatgpt(prompt: string, url: string): Promise<Data
     const crawlerData: CrawlerData = {
       description: parsedData.description || '',
       detail: parsedData.detail || '',
+      content: parsedData.content || '',
       category_name: parsedData.category_name || '',
       name: parsedData.name || '',
       screenshot_data: '', // 你可以在这里处理截图数据
