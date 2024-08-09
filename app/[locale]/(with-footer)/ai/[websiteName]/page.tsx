@@ -18,6 +18,11 @@ export async function generateMetadata({
     locale,
     namespace: 'Metadata.ai',
   });
+
+  // url解码一下
+  // websiteName = decodeURIComponent(websiteName);
+  console.log(websiteName);
+
   const { data } = await supabase.from('web_navigation').select().eq('name', websiteName);
 
   if (!data || !data[0]) {

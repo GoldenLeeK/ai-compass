@@ -1,5 +1,4 @@
 import { error } from 'console';
-import { json } from 'stream/consumers';
 import axios from 'axios';
 import cheerio from 'cheerio';
 
@@ -80,18 +79,24 @@ Please provide only the JSON string in your response, strictly in English, witho
     if (chatGPTResponse.error || !chatGPTResponse.result) {
       return {
         code: 500,
-        msg: JSON.stringify(error),
+        msg: 'Error occurred during chatgpt api.',
         data: null,
       };
     }
-
-    console.log(chatGPTResponse);
 
     const smmsResp = await smms(url);
 
     var screenshot_data = '';
     if (smmsResp.success && smmsResp.data) {
-      screenshot_data = smmsResp.data['url'] || '';
+      screenshot_data = smmsResp.data.get('url') || smmsResp.data?.get('images') || '';
+    }
+
+    if (screenshot_data === '') {
+      return {
+        code: 500,
+        msg: 'Error occurred during uploading screenshot to smms',
+        data: null,
+      };
     }
 
     // 5. 构造 CrawlerData 对象
@@ -117,7 +122,7 @@ Please provide only the JSON string in your response, strictly in English, witho
     console.error('Error occurred during crawling:', error);
     return {
       code: 500,
-      msg: JSON.stringify(error),
+      msg: 'Error occurred during crawling.',
       data: null,
     };
   }

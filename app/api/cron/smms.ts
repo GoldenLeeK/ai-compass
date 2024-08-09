@@ -33,7 +33,8 @@ export default async function smms(url: string): Promise<smmsResp> {
 
     // Upload screenshot to SM.MS
     const form = new FormData();
-    form.append('smfile', stream, { filename: `${url}.webp`, contentType: 'image/webp' });
+    const timestamp = Date.now();
+    form.append('smfile', stream, { filename: `${url}-${timestamp}.webp`, contentType: 'image/webp' });
 
     const response = await axios.post(SMMS_API_URL, form, {
       headers: {
@@ -41,8 +42,14 @@ export default async function smms(url: string): Promise<smmsResp> {
         Authorization: `${SMMS_API_KEY}`,
       },
     });
-    const data: smmsResp = response.data;
-    return data;
+
+    // 如果有 data 字段并且是对象类型，转化为 Map
+    if (response.data.data && typeof response.data.data === 'object') {
+      response.data.data = new Map(Object.entries(response.data.data));
+    }
+
+    // 返回解析后的对象并断言为 smmsResp 类型
+    return response.data as smmsResp;
   } catch (error) {
     console.error(error);
     return <smmsResp>{ success: false, code: 'error', message: error };

@@ -59,18 +59,23 @@ export async function POST(req: NextRequest) {
       // Perform the crawling operation
       const result = await crawler(CrawlerRequest);
 
+      if (result.code !== 200) {
+        continue;
+      }
+
       // 插入新数据
       const { error: insertError } = await supabase.from('web_navigation').insert({
         url: website.url,
-        title: result.data.title,
-        detail: result.data.detail,
-        category_name: result.data.category_name,
-        name: result.data.name,
-        content: result.data.content,
-        tag_name: result.data?.tags.join(', '),
-        collection_time: new Date().toISOString(),
-        image_url: result.data?.screenshot_data,
-        thumbnail_url: result.data?.screenshot_data,
+        title: result?.data?.title || '',
+        detail: result?.data?.detail || '',
+        category_name: result?.data?.category_name || '',
+        name: result?.data?.name || '',
+        content: result?.data?.content || '',
+        tag_name: result?.data?.tags?.join(', ') || '',
+        collection_time: new Date().toISOString() || '',
+        image_url: result.data?.screenshot_data || '',
+        thumbnail_url: result.data?.screenshot_data || '',
+        star_rating: 0,
       });
 
       if (insertError) {
@@ -84,7 +89,7 @@ export async function POST(req: NextRequest) {
       results.push({ id: website.id, ...result });
     } catch (err) {
       console.error(`Error processing ${website.url}:`, err);
-      await supabase.from('submit').update({ status: 2 }).eq('id', website.id);
+      // await supabase.from('submit').update({ status: 2 }).eq('id', website.id);
     }
   }
 

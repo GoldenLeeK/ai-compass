@@ -27,6 +27,7 @@ export default async function Page({ params }: { params: { code: string; pageNum
   const supabase = createClient();
   const currentPage = Number(params?.pageNum || 1);
 
+  // params.code = decodeURIComponent(params.code);
   const [{ data: categoryList }, { data: navigationList, count }] = await Promise.all([
     supabase.from('navigation_category').select().eq('name', params.code),
     supabase
