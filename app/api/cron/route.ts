@@ -89,7 +89,7 @@ export async function POST(req: NextRequest) {
       results.push({ id: website.id, ...result });
     } catch (err) {
       console.error(`Error processing ${website.url}:`, err);
-      // await supabase.from('submit').update({ status: 2 }).eq('id', website.id);
+      await supabase.from('submit').update({ status: 2 }).eq('id', website.id);
     }
   }
 
