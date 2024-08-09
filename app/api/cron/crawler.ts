@@ -105,7 +105,7 @@ Please provide only the JSON string in your response, strictly in English, witho
       detail: chatGPTResponse.result.detail,
       content: chatGPTResponse.result.content,
       category_name: chatGPTResponse.result.category_name,
-      name: chatGPTResponse.result.name,
+      name: chatGPTResponse.result.name.replace(' ', '-'),
       screenshot_data: screenshot_data, // 这里需要你自己处理截图的部分
       screenshot_thumbnail_data: screenshot_data, // 这里需要你自己处理截图的部分
       tags: chatGPTResponse.result.tags,
