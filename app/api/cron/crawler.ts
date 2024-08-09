@@ -2,20 +2,23 @@ import axios from 'axios';
 import cheerio from 'cheerio';
 
 import chatgpt from './chatgpt';
+import smms from './smms';
 
 type CrawlerRequest = {
   url: string;
+  categoryList: string;
 };
 
 type CrawlerResponse = {
   code: number;
   msg: string;
+  data: CrawlerData | null;
 };
 
 type CrawlerData = {
   description: string;
   detail: string;
-  languages: string[];
+  category_name: string;
   name: string;
   screenshot_data: string;
   screenshot_thumbnail_data: string;
@@ -24,7 +27,7 @@ type CrawlerData = {
   url: string;
 };
 
-export default async function crawler({ url }: CrawlerRequest) {
+export default async function crawler({ url, categoryList }: CrawlerRequest): Promise<CrawlerResponse> {
   try {
     // 1. 获取页面内容
     const response = await axios.get(url);
@@ -43,26 +46,29 @@ export default async function crawler({ url }: CrawlerRequest) {
     if (title == '' && description == '') {
       return {
         code: 500,
-        msg: 'empty title description',
+        msg: 'title and description is empty',
+        data: null,
       };
     }
 
     // 4. Generate the prompt for ChatGPT
-    const prompt = `Please generate a JSON object based on the following information. The JSON should include the following fields:
+    const prompt = `Please generate a JSON object in English based on the following information. The JSON should include the following fields:
 
-- "description": A brief description of the website.
-- "detail": A detailed description or content of the website, inferred from the title and description.
-- "languages": The programming languages or tech stack used, formatted as an array of strings. (If not applicable, leave it empty.)
+- "description": A concise description of the website.
+- "detail": A detailed and expansive description or content of the website, inferred from the title and description. Be creative and elaborate on what the website offers.
+- "category_name": Automatically select the most appropriate category name from the provided category list, based on the content of the website. This field must not be left empty.
 - "name": The name of the website, inferred from the title.
-- "tags": Tags related to the content of the website, formatted as an array of strings. (If not applicable, leave it empty.)
+- "tags": Automatically generate relevant tags related to the content of the website, formatted as an array of strings. Do not leave this field empty.
 - "title": The title of the website.
 
 The webpage content is as follows:
 
-title is ${title}
-description is ${description}
+title: ${title}
+description: ${description}
+category_list: ${categoryList}
 
-Please provide only the JSON string in your response, without any additional text or explanations.
+Please provide only the JSON string in your response, strictly in English, without any additional text or explanations. Ensure that the "category_name" is selected and not left empty.
+
 `;
 
     // 4. 使用 ChatGPT API 生成 CrawlerData
@@ -72,28 +78,41 @@ Please provide only the JSON string in your response, without any additional tex
       return {
         code: 500,
         msg: 'chatgpt error',
+        data: null,
       };
+    }
+
+    const smmsResp = await smms(url);
+
+    var screenshot_data = '';
+    if (smmsResp.success && smmsResp.data) {
+      screenshot_data = smmsResp.data['url'] || '';
     }
 
     // 5. 构造 CrawlerData 对象
     const crawlerData: CrawlerData = {
       description: chatGPTResponse.result.description,
       detail: chatGPTResponse.result.detail,
-      languages: chatGPTResponse.result.languages,
+      category_name: chatGPTResponse.result.category_name,
       name: chatGPTResponse.result.name,
-      screenshot_data: '', // 这里需要你自己处理截图的部分
-      screenshot_thumbnail_data: '', // 这里需要你自己处理截图的部分
+      screenshot_data: screenshot_data, // 这里需要你自己处理截图的部分
+      screenshot_thumbnail_data: screenshot_data, // 这里需要你自己处理截图的部分
       tags: chatGPTResponse.result.tags,
       title: chatGPTResponse.result.title,
       url: url,
     };
 
-    return crawlerData;
+    return {
+      code: 200,
+      msg: 'success',
+      data: crawlerData,
+    };
   } catch (error) {
     console.error('Error occurred during crawling:', error);
     return {
       code: 500,
       msg: 'Internal Server Error',
+      data: null,
     };
   }
 }

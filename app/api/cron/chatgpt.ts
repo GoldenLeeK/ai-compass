@@ -1,4 +1,3 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 
 type Data = {
@@ -9,19 +8,13 @@ type Data = {
 type CrawlerData = {
   description: string;
   detail: string;
-  languages: string[];
+  category_name: string;
   name: string;
   screenshot_data: string;
   screenshot_thumbnail_data: string;
   tags: string[] | null;
   title: string;
   url: string;
-};
-
-const proxy = {
-  host: '127.0.0.1',
-  port: 10809,
-  protocol: 'http', // 代理协议，可能是 http 或 https
 };
 
 const CHATGPT_API_KEY = process.env.CHATGPT_API_KEY; // 替换为你的 API 密钥
@@ -53,7 +46,7 @@ export default async function chatgpt(prompt: string, url: string): Promise<Data
     const crawlerData: CrawlerData = {
       description: parsedData.description || '',
       detail: parsedData.detail || '',
-      languages: parsedData.languages || [],
+      category_name: parsedData.category_name || '',
       name: parsedData.name || '',
       screenshot_data: '', // 你可以在这里处理截图数据
       screenshot_thumbnail_data: '', // 你可以在这里处理截图缩略图数据
