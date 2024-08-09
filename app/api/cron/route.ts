@@ -5,21 +5,21 @@ import { createClient } from '@/db/supabase/client';
 import crawler from './crawler';
 
 export async function POST(req: NextRequest) {
-  // Get Authorization
-  const authHeader = req.headers.get('Authorization');
+  // // Get Authorization
+  // const authHeader = req.headers.get('Authorization');
 
-  // Check Authorization and Verify token
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return NextResponse.json({ error: 'Authorization header is missing or malformed' }, { status: 401 });
-  }
+  // // Check Authorization and Verify token
+  // if (!authHeader || !authHeader.startsWith('Bearer ')) {
+  //   return NextResponse.json({ error: 'Authorization header is missing or malformed' }, { status: 401 });
+  // }
 
-  const token = authHeader.split(' ')[1];
-  const submitKey = process.env.CRON_AUTH_KEY;
-  // check key
-  const isValid = submitKey === token;
-  if (!isValid) {
-    return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
-  }
+  // const token = authHeader.split(' ')[1];
+  // const submitKey = process.env.CRON_AUTH_KEY;
+  // // check key
+  // const isValid = submitKey === token;
+  // if (!isValid) {
+  //   return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+  // }
 
   const supabase = createClient();
   // Check if name already exists
