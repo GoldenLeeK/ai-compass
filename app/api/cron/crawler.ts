@@ -57,12 +57,11 @@ export default async function crawler({ url, categoryList }: CrawlerRequest): Pr
     // 4. Generate the prompt for ChatGPT
     const prompt = `Please generate a JSON object in English based on the following information. The JSON should include the following fields:
 
-- "description": A concise description of the website.
-- "detail": A detailed and expansive description or content of the website, inferred from the title and description. Be creative and elaborate on what the website offers.
-- "content": A detailed and comprehensive description of the features, offerings, and functionalities of the website, based on the title and description provided. This field should provide an in-depth look at what users can expect from the website.
-- "category_name": Automatically select the most appropriate category name from the provided category list, based on the content of the website. This field must not be left empty.
-- "name": The name of the website, inferred from the title.
-- "tags": Automatically generate relevant tags related to the content of the website, formatted as an array of strings. Do not leave this field empty.
+- "detail": A detailed and expansive description of the website, creatively elaborating on its offerings and what users can expect. This field should be at least 300 characters long.
+- "content": A comprehensive description of the website’s features, functionalities, and offerings, based on the title and description provided. This field should be no longer than 200 characters.
+- "category_name": Select the most appropriate category from the provided category list based on the website's content. This field must not be left empty.
+- "name": A brief name for the website, ideally consisting of up to three words.
+- "tags": Automatically generate relevant tags related to the website’s content, formatted as an array of strings. Do not leave this field empty.
 - "title": The title of the website.
 
 The webpage content is as follows:
@@ -85,6 +84,8 @@ Please provide only the JSON string in your response, strictly in English, witho
         data: null,
       };
     }
+
+    console.log(chatGPTResponse);
 
     const smmsResp = await smms(url);
 

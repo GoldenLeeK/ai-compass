@@ -1,23 +1,48 @@
 /* eslint-disable import/prefer-default-export */
+import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/db/supabase/client';
 
 import crawler from './crawler';
 
-export async function POST() {
+export async function POST(req: NextRequest) {
+  // Get Authorization
+  const authHeader = req.headers.get('Authorization');
+
+  // Check Authorization and Verify token
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return NextResponse.json({ error: 'Authorization header is missing or malformed' }, { status: 401 });
+  }
+
+  const token = authHeader.split(' ')[1];
+  const submitKey = process.env.CRON_AUTH_KEY;
+  // check key
+  const isValid = submitKey === token;
+  if (!isValid) {
+    return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+  }
+
   const supabase = createClient();
   // Check if name already exists
-  const { data: websiteList, error: error } = await supabase.from('submit').select('id,url').eq('status', 0);
+  const { data: websiteList, error: websiteError } = await supabase.from('submit').select('id,url').eq('status', 0);
 
   //查不到记录
-  if (error && error.code !== 'PGRST116') {
-    return Response.json('success');
+  if (websiteError && websiteError.code !== 'PGRST116') {
+    return NextResponse.json('success');
   }
 
   if (!websiteList || websiteList.length === 0) {
-    return Response.json({ message: 'No websites to process.' });
+    return NextResponse.json({ message: 'No websites to process.' });
   }
 
-  const categoryList = 'Code-IT,Image';
+  const { data: categories, error: caegoryError } = await supabase.from('navigation_category').select('name');
+
+  var categoryList = '';
+  //查不到记录
+  if (caegoryError && caegoryError.code !== 'PGRST116') {
+    categoryList = 'Other';
+  } else {
+    categoryList = categories && categories.length > 0 ? categories.map((item) => item.name).join(', ') : 'Other';
+  }
 
   // Array to hold the results
   const results = [];
@@ -59,11 +84,10 @@ export async function POST() {
       results.push({ id: website.id, ...result });
     } catch (err) {
       console.error(`Error processing ${website.url}:`, err);
-      // You can handle the error accordingly, such as logging or updating status
-      // Update the status to mark the website as processed
+      await supabase.from('submit').update({ status: 2 }).eq('id', website.id);
     }
   }
 
   // Return the results
-  return Response.json({ results });
+  return NextResponse.json({ results });
 }
