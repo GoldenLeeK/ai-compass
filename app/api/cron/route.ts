@@ -60,8 +60,9 @@ export async function POST(req: NextRequest) {
       // Perform the crawling operation
       const result = await crawler(CrawlerRequest);
       console.log('Crawler result for:', website.url, result);
+
       if (result.code !== 200) {
-        return NextResponse.json(result);
+        throw new Error(JSON.stringify(result));
       }
 
       // 插入新数据

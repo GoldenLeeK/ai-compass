@@ -19,6 +19,7 @@ type CrawlerData = {
 };
 
 const CHATGPT_API_KEY = process.env.CHATGPT_API_KEY; // 替换为你的 API 密钥
+const CHATGPT_API_URL = process.env.CHATGPT_API_URL; //API url
 
 export default async function chatgpt(prompt: string, url: string): Promise<Data> {
   if (!prompt) {
@@ -32,7 +33,7 @@ export default async function chatgpt(prompt: string, url: string): Promise<Data
   };
 
   try {
-    const response = await axios.post('https://api.chatanywhere.tech/v1/chat/completions', body, {
+    const response = await axios.post(`${CHATGPT_API_URL}/v1/chat/completions`, body, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${CHATGPT_API_KEY}`,
