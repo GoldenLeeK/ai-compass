@@ -22,77 +22,79 @@ export async function POST(req: NextRequest) {
   }
 
   const supabase = createClient();
+
+  return NextResponse.json(supabase);
   // Check if name already exists
-  const { data: websiteList, error: websiteError } = await supabase.from('submit').select('id,url').eq('status', 0);
+  // const { data: websiteList, error: websiteError } = await supabase.from('submit').select('id,url').eq('status', 0);
 
-  //查不到记录
-  if (websiteError && websiteError.code !== 'PGRST116') {
-    return NextResponse.json('success');
-  }
+  // //查不到记录
+  // if (websiteError && websiteError.code !== 'PGRST116') {
+  //   return NextResponse.json('success');
+  // }
 
-  if (!websiteList || websiteList.length === 0) {
-    return NextResponse.json({ message: 'No websites to process.' });
-  }
+  // if (!websiteList || websiteList.length === 0) {
+  //   return NextResponse.json({ message: 'No websites to process.' });
+  // }
 
-  const { data: categories, error: caegoryError } = await supabase.from('navigation_category').select('name');
+  // const { data: categories, error: caegoryError } = await supabase.from('navigation_category').select('name');
 
-  var categoryList = '';
-  //查不到记录
-  if (caegoryError && caegoryError.code !== 'PGRST116') {
-    categoryList = 'Other';
-  } else {
-    categoryList = categories && categories.length > 0 ? categories.map((item) => item.name).join(', ') : 'Other';
-  }
+  // var categoryList = '';
+  // //查不到记录
+  // if (caegoryError && caegoryError.code !== 'PGRST116') {
+  //   categoryList = 'Other';
+  // } else {
+  //   categoryList = categories && categories.length > 0 ? categories.map((item) => item.name).join(', ') : 'Other';
+  // }
 
-  // Array to hold the results
-  const results = [];
+  // // Array to hold the results
+  // const results = [];
 
-  // Loop through each website in the list
-  for (const website of websiteList) {
-    try {
-      if (!website.url) {
-        continue;
-      }
-      // Prepare the crawler request with the current website's URL
-      const CrawlerRequest = { url: website.url, categoryList };
+  // // Loop through each website in the list
+  // for (const website of websiteList) {
+  //   try {
+  //     if (!website.url) {
+  //       continue;
+  //     }
+  //     // Prepare the crawler request with the current website's URL
+  //     const CrawlerRequest = { url: website.url, categoryList };
 
-      // Perform the crawling operation
-      const result = await crawler(CrawlerRequest);
-      console.log('Crawler result for:', website.url, result);
-      if (result.code !== 200) {
-        continue;
-      }
+  //     // Perform the crawling operation
+  //     const result = await crawler(CrawlerRequest);
+  //     console.log('Crawler result for:', website.url, result);
+  //     if (result.code !== 200) {
+  //       continue;
+  //     }
 
-      // 插入新数据
-      const { error: insertError } = await supabase.from('web_navigation').insert({
-        url: website.url,
-        title: result?.data?.title || '',
-        detail: result?.data?.detail || '',
-        category_name: result?.data?.category_name || '',
-        name: result?.data?.name || '',
-        content: result?.data?.content || '',
-        tag_name: result?.data?.tags?.join(', ') || '',
-        collection_time: new Date().toISOString() || '',
-        image_url: result.data?.screenshot_data || '',
-        thumbnail_url: result.data?.screenshot_data || '',
-        star_rating: 0,
-      });
+  //     // 插入新数据
+  //     const { error: insertError } = await supabase.from('web_navigation').insert({
+  //       url: website.url,
+  //       title: result?.data?.title || '',
+  //       detail: result?.data?.detail || '',
+  //       category_name: result?.data?.category_name || '',
+  //       name: result?.data?.name || '',
+  //       content: result?.data?.content || '',
+  //       tag_name: result?.data?.tags?.join(', ') || '',
+  //       collection_time: new Date().toISOString() || '',
+  //       image_url: result.data?.screenshot_data || '',
+  //       thumbnail_url: result.data?.screenshot_data || '',
+  //       star_rating: 0,
+  //     });
 
-      if (insertError) {
-        throw new Error(insertError.message);
-      }
+  //     if (insertError) {
+  //       throw new Error(insertError.message);
+  //     }
 
-      // Update the status to mark the website as processed
-      await supabase.from('submit').update({ status: 1 }).eq('id', website.id);
+  //     // Update the status to mark the website as processed
+  //     await supabase.from('submit').update({ status: 1 }).eq('id', website.id);
 
-      // Add the result to the results array
-      results.push({ id: website.id, ...result });
-    } catch (err) {
-      console.error(`Error processing ${website.url}:`, err);
-      await supabase.from('submit').update({ status: 2 }).eq('id', website.id);
-    }
-  }
+  //     // Add the result to the results array
+  //     results.push({ id: website.id, ...result });
+  //   } catch (err) {
+  //     console.error(`Error processing ${website.url}:`, err);
+  //     await supabase.from('submit').update({ status: 2 }).eq('id', website.id);
+  //   }
+  // }
 
-  // Return the results
-  return NextResponse.json({ results });
+  // // Return the results
+  // return NextResponse.json({ results });
 }
