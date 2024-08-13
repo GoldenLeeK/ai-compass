@@ -60,6 +60,6 @@ export default async function chatgpt(prompt: string, url: string): Promise<Data
     return { result: crawlerData };
   } catch (error) {
     console.error(error);
-    return { error: 'error' };
+    return { error: JSON.stringify(error) };
   }
 }
