@@ -79,7 +79,7 @@ Please provide only the JSON string in your response, strictly in English, witho
     if (chatGPTResponse.error || !chatGPTResponse.result) {
       return {
         code: 500,
-        msg: 'Error occurred during chatgpt api.',
+        msg: JSON.stringify(chatGPTResponse),
         data: null,
       };
     }
@@ -94,7 +94,7 @@ Please provide only the JSON string in your response, strictly in English, witho
     if (screenshot_data === '') {
       return {
         code: 500,
-        msg: 'Error occurred during uploading screenshot to smms',
+        msg: JSON.stringify(smmsResp),
         data: null,
       };
     }
@@ -119,10 +119,9 @@ Please provide only the JSON string in your response, strictly in English, witho
       data: crawlerData,
     };
   } catch (error) {
-    console.error('Error occurred during crawling:', error);
     return {
       code: 500,
-      msg: 'Error occurred during crawling.',
+      msg: JSON.stringify(error),
       data: null,
     };
   }
