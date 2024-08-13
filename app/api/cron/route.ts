@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
       const result = await crawler(CrawlerRequest);
       console.log('Crawler result for:', website.url, result);
       if (result.code !== 200) {
-        continue;
+        return NextResponse.json(result);
       }
 
       // 插入新数据
