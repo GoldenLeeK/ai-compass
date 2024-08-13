@@ -23,9 +23,10 @@ export async function POST(req: NextRequest) {
 
   const supabase = createClient();
 
-  return NextResponse.json(supabase);
   // Check if name already exists
-  // const { data: websiteList, error: websiteError } = await supabase.from('submit').select('id,url').eq('status', 0);
+  const { data: websiteList, error: websiteError } = await supabase.from('submit').select('id,url').eq('status', 0);
+
+  return NextResponse.json({ list: websiteList, error: websiteError });
 
   // //查不到记录
   // if (websiteError && websiteError.code !== 'PGRST116') {
