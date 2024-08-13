@@ -47,6 +47,7 @@ export async function POST(req: NextRequest) {
   // Array to hold the results
   const results = [];
 
+  console.log('websiteList result for:', websiteList);
   // Loop through each website in the list
   for (const website of websiteList) {
     try {
