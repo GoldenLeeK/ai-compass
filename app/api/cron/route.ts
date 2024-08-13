@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
 
       // Perform the crawling operation
       const result = await crawler(CrawlerRequest);
-
+      console.log('Crawler result for:', website.url, result);
       if (result.code !== 200) {
         continue;
       }
