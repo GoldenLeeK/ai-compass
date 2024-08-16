@@ -83,7 +83,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const websiteSitemapRoutes = websites.map((website) => ({
     url: `ai/${website.name}`,
     lastModified: new Date().toISOString(),
-    changeFrequency: 'weekly' as const,
+    changeFrequency: 'daily' as const,
     priority: 0.6,
   }));
 
