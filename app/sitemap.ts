@@ -39,6 +39,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     {
+      url: '', // home
+      lastModified: new Date().toISOString(),
+      changeFrequency: 'daily' as const,
+      priority: 1,
+    },
+    {
       url: 'explore',
       lastModified: new Date().toISOString(),
       changeFrequency: 'daily' as const,
@@ -91,7 +97,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const sitemapData = allRoutes.flatMap((route) =>
     locales.map((locale) => {
-      const lang = locale === 'en' ? '' : `/${locale}`;
+      const lang = locale === 'en' ? '/en' : `/${locale}`;
       const routeUrl = route.url === '' ? '' : `/${route.url}`;
       return {
         ...route,

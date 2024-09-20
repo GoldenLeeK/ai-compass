@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
         title: result?.data?.title || '',
         detail: result?.data?.detail || '',
         category_name: result?.data?.category_name || '',
-        name: result?.data?.name || '',
+        name: (result?.data?.name || '').replace(/\s+/g, '-'),
         content: result?.data?.content || '',
         tag_name: result?.data?.tags?.join(', ') || '',
         collection_time: new Date().toISOString() || '',
