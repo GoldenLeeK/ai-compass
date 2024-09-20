@@ -39,12 +39,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     {
-      url: '', // home
-      lastModified: new Date().toISOString(),
-      changeFrequency: 'daily' as const,
-      priority: 1,
-    },
-    {
       url: 'explore',
       lastModified: new Date().toISOString(),
       changeFrequency: 'daily' as const,
